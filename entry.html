@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GPT-4-TEST</title>
+    <script type="text/javascript">
+        function cp(){
+            var txt = document.getElementById("output");
+            txt.select();
+            document.execCommand("Copy");
+        }
+
+        function send(){
+            var mod = document.getElementById("model").value;
+            var sys = document.getElementById("system").value;
+            var usr = document.getElementById("user").value;
+            var view = document.getElementById("view");
+            view.value = "生成中";
+            fetch("http://localhost:53535/access/",{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({"model":mod, "system":sys, "user":usr})
+            })
+                .then((response) => response.text())
+                .then((text) => {
+                    var out = document.getElementById("output");
+                    out.value = text;
+                })
+                .catch(error => {
+                    alert("ERROR!!");
+                });
+                view.value = "";
+        }
+
+        function reset(){
+            fetch("http://localhost:53535/reset/")
+                .then((response) => {
+                    alert("systemへの入力がリセットされました。")
+                })
+                .catch(error => {
+                    alert("ERROR!!");
+                });
+        }
+    </script>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th colspan="2">
+                <h1>GPT Web GUI</h1>
+            </th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td>
+                            <p>モデルの選択</p>
+                        </td>
+                        <td>
+                            <select id="model" name="model">
+                                <option value="gpt-3.5-turbo">GPT-3.5-turbo</option>
+                                <option value="gpt-3.5-turbo-1106">GPT-3.5-turbo(11月6日版)</option>
+                                <option value="gpt-3.5-turbo-0613">GPT-3.5-turbo(6月13日版)</option>
+                                <option value="gpt-3.5-turbo-0301">GPT-3.5-turbo(3月1日版)</option>
+                                <option value="gpt-4">GPT-4</option>
+                                <option value="gpt-4-1106-preview">GPT-4-turbo</option>
+                                <option value="gpt-4-0613">GPT-4(6月13日版)</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button onclick="send()">送信</button>
+                        </td>
+                        <td>
+                            <button onclick="reset()">ログのリセット</button>
+                        </td>
+                    </tr>    
+                </table>
+            </td>
+        </tr>
+        <tr>
+
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            <p>systemプロンプトの入力</p>
+                            <textarea id="system" name="system" cols="150" rows="12"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>userプロンプトの入力</p>
+                            <textarea id="user" name="user" cols="150" rows="60"></textarea>
+                        </td>
+                    </tr>
+                </table>                
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            <button id="view"></button>
+                            <button onclick="cp()">コピー</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea id="output" readonly name="出力" cols="150" rows="72">ここにGPTからの返答が入ってきます。</textarea>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
