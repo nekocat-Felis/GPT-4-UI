@@ -6,5 +6,5 @@
 # 都合上、"#" や "="、改行 を含む文字列は扱うことができません。
 # また、項目名や値の前後につくスペースなども消去されます。
 
-# OpenAI APIキーです。自分で取得してください。
-api_key = otameshi-no-api-key
+# OpenAI APIキーです。自分で取得して置き換えてください。
+api_key = sk-kon-na-kanzi-de-kakikomimasu
