@@ -3,12 +3,17 @@ from flask import Flask, request
 import GPT
 
 app = Flask(__name__)
-chat = GPT.Chat("ここにAPIキーを入れる")
+chat = GPT.Chat()
 
 @app.route("/")
 def HTML_Display():
     with open("entry.html", encoding="utf_8") as f:
         html = f.read()
+    fake_options = '<option value="gpt-3.5-turbo">fake-01</option>\n<option value="gpt-3.5-turbo">fake-02</option>'
+    options = ""
+    for id, name in chat.model_list.items():
+        options += f'<option value="{id}">{name}</option>\n'
+    html = html.replace(fake_options, options)
     return html
 
 @app.route("/access/", methods=["POST"])
@@ -29,3 +34,4 @@ def Log_Reset():
 
 if __name__ == "__main__":
     app.run(host="::1", port="53535", debug=True, threaded=True)
+    input()

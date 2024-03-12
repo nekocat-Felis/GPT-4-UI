@@ -5,7 +5,7 @@ import tkinter.messagebox as tkm
 import GPT
 
 root = tk.Tk()
-chat = GPT.Chat("ここにAPIキーを入れる")
+chat = GPT.Chat()
 
 # ウインドウのタイトル
 root.title("GPT-access")
