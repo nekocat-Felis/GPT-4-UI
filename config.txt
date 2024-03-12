@@ -7,4 +7,4 @@
 # また、項目名や値の前後につくスペースなども消去されます。
 
 # OpenAI APIキーです。自分で取得してください。
-api_key = 
+api_key = otameshi-no-api-key
